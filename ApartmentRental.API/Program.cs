@@ -1,3 +1,8 @@
+using ApartmentRental.Core.Services;
+using ApartmentRental.Infrastructure.Context;
+using ApartmentRental.Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<MainContext>(options =>
+    options.UseSqlite("DataSource=dbo.ApartmentRental.db",
+        sqlOptions => sqlOptions.MigrationsAssembly("ApartmentRental.Infrastructure")
+    )
+);
+
+builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
+builder.Services.AddScoped<IApartmentService, ApartmentService>();
 
 var app = builder.Build();
 

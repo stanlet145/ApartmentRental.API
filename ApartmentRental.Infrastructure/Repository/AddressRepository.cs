@@ -75,4 +75,14 @@ public class AddressRepository : IAddressRepository
 
         throw new EntityNotFoundException();
     }
+
+    public async Task<int> GetAddressesIdByItsAttributesAsync(string country, string city, string zipCode,
+        string street,
+        string buildingNumber, string apartmentNumber)
+    {
+        var address = await _mainContext.Addresses.FirstOrDefaultAsync(x =>
+            x.Country == country && x.City == city && x.PostalCode == zipCode && x.Street == street && x.FlatNumber ==
+            buildingNumber && x.ApartmentNumber == apartmentNumber);
+        return address?.Id ?? 0;
+    }
 }

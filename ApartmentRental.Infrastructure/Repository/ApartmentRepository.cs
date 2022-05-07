@@ -76,4 +76,10 @@ public class ApartmentRepository : IApartmentRepository
 
         throw new EntityNotFoundException();
     }
+
+    public Task GetAddressIdOrCreateAsync(string dtoCountry, string dtoCity, string dtoZipCode, string dtoStreet,
+        string dtoBuildingNumber, string dtoApartmentNumber)
+    {
+        throw new NotImplementedException();
+    }
 }
