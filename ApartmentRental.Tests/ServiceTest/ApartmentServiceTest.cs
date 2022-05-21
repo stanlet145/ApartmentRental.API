@@ -59,5 +59,17 @@ public class ApartmentServiceTest
                 AmountOfRooms = 2
             }
         };
+        var apartmentRepositoryMock = new Mock<IApartmentRepository>();
+        apartmentRepositoryMock.Setup(x => x.GetAll()).ReturnsAsync(apartments);
+
+        var sut = new ApartmentService(apartmentRepositoryMock.Object, Mock.Of<ILandlordRepository>(),
+            Mock.Of<IAddressService>());
+
+        var result = await sut.GetTheCheapestApartmentAsync();
+
+        result.Should().NotBeNull();
+        result.City.Should().Be("Gdynia");
+        result.RentAmount.Should().Be(1999);
+        result.IsElevatorInBuilding.Should().BeFalse();
     }
 }
